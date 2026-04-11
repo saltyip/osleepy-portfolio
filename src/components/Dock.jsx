@@ -6,7 +6,7 @@ export default function Dock({ apps, openWindows, onToggle, activeWindow }) {
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[2000]">
       <div className="flex items-end gap-2 px-3 py-2 bg-mantle/60 backdrop-blur-xl border border-surface1 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-        
+
         {/* Launcher icon */}
         <motion.div
           whileHover={{ scale: 1.2, y: -5 }}
@@ -23,7 +23,7 @@ export default function Dock({ apps, openWindows, onToggle, activeWindow }) {
         {Object.entries(apps).map(([id, config]) => {
           const isOpen = openWindows[id];
           const isActive = activeWindow === id && isOpen;
-          
+
           return (
             <motion.div
               key={id}
@@ -37,7 +37,7 @@ export default function Dock({ apps, openWindows, onToggle, activeWindow }) {
               )}
             >
               <div className="text-2xl">{config.icon}</div>
-              
+
               {/* Active Indicator */}
               {isOpen && (
                 <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-mauve rounded-full shadow-[0_0_5px_var(--color-mauve)]" />

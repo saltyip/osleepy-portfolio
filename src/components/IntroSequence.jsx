@@ -22,7 +22,7 @@ export default function IntroSequence({ onComplete }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    
+
     // Aesthetic Palette
     const palette = {
       sky: '#fab387',     // peach morning sky
@@ -54,11 +54,11 @@ export default function IntroSequence({ onComplete }) {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const maxScroll = document.body.scrollHeight - window.innerHeight;
-      let progress = scrollY / (maxScroll || 1); 
-      
+      let progress = scrollY / (maxScroll || 1);
+
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
-      
+
       targetProgressRef.current = progress;
     };
     window.addEventListener('scroll', handleScroll);
@@ -79,13 +79,13 @@ export default function IntroSequence({ onComplete }) {
           fadeOverlayRef.current.style.opacity = '0';
         }
       }
-      
+
       // Lerp exponentially slows down approaching 1.0, so trigger near the peak
       if (progress >= 0.995 && !isCompleteTriggered && onComplete) {
         isCompleteTriggered = true;
         setTimeout(onComplete, 600);
       }
-      
+
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -93,28 +93,28 @@ export default function IntroSequence({ onComplete }) {
     function draw(p) {
       const w = canvas.width;
       const h = canvas.height;
-      
+
       // Crisp pixel art rendering
       ctx.imageSmoothingEnabled = false;
-      
+
       // Clear background
       ctx.fillStyle = '#000';
       ctx.fillRect(0, 0, w, h);
-      
+
       const minDimension = Math.min(w, h);
-      
+
       const gridW = 100;
       const gridH = 60;
       // Make the 100x60 box fit cleanly in the center
       const scale = Math.min(w / gridW, h / gridH) * 0.9;
-      
+
       const offsetX = w / 2 - (gridW * scale) / 2;
       const offsetY = h / 2 - (gridH * scale) / 2;
 
       ctx.save();
       ctx.translate(offsetX, offsetY);
       ctx.scale(scale, scale);
-      
+
       // Outer border / darkness
       ctx.fillStyle = '#0a0a14';
       ctx.fillRect(-10, -10, 120, 80);
@@ -123,11 +123,11 @@ export default function IntroSequence({ onComplete }) {
       // Wall
       ctx.fillStyle = palette.wallInner;
       ctx.fillRect(0, 0, 100, 45);
-      
+
       // Baseboard / Floor Line
       ctx.fillStyle = '#11111b';
       ctx.fillRect(0, 44, 100, 1);
-      
+
       // Floor
       ctx.fillStyle = palette.floor;
       ctx.fillRect(0, 45, 100, 15);
@@ -154,9 +154,9 @@ export default function IntroSequence({ onComplete }) {
       ctx.fillRect(5, 37, 34, 8);  // Main base
       ctx.fillRect(5, 30, 3, 15);  // Headboard
       ctx.fillRect(38, 35, 2, 10); // Footboard
-      
+
       // Mattress
-      ctx.fillStyle = '#b4befe'; 
+      ctx.fillStyle = '#b4befe';
       ctx.fillRect(8, 34, 30, 3);
 
       // Pillow
@@ -169,7 +169,7 @@ export default function IntroSequence({ onComplete }) {
       // Table top
       ctx.fillStyle = palette.frame;
       ctx.fillRect(70, 32, 27, 2);
-      
+
       // Monitor Screen (Off)
       ctx.fillStyle = palette.monitor;
       ctx.fillRect(76, 20, 16, 10);
@@ -185,17 +185,17 @@ export default function IntroSequence({ onComplete }) {
       // --- Character & Animation Logic ---
       let charX, charY, pose;
       let walkProgress = 0;
-      
+
       if (p < 0.25) {
         pose = 'sleeping';
         charX = 10; charY = 28; // head perfectly on pillow
       } else if (p < 0.4) {
         pose = 'sitting_up';
-        charX = 13; charY = 22; 
+        charX = 13; charY = 22;
       } else if (p < 0.7) {
         pose = 'walking';
         walkProgress = Math.max(0, (p - 0.4) / 0.3);
-        charX = 14 + walkProgress * (48); 
+        charX = 14 + walkProgress * (48);
         charY = 25; // Floor is 45. Head:6, Body:8, Legs:6 -> 20. 45-20=25. Perfectly touching floor.
       } else if (p < 0.8) {
         pose = 'sitting';
@@ -214,7 +214,7 @@ export default function IntroSequence({ onComplete }) {
         // Just the head resting
         ctx.fillStyle = palette.skin;
         ctx.fillRect(charX, charY, 6, 6);
-        
+
         // Detailed Cozy Blanket
         ctx.fillStyle = palette.blanket;
         ctx.fillRect(15, 33, 23, 5); // top
@@ -223,29 +223,29 @@ export default function IntroSequence({ onComplete }) {
         ctx.fillStyle = '#bca1e0';
         ctx.fillRect(19, 33, 2, 8);
         ctx.fillRect(27, 33, 2, 8);
-      } 
+      }
       else if (pose === 'sitting_up') {
         // Head and Body
         ctx.fillStyle = palette.skin; ctx.fillRect(charX, charY, 6, 6);
         ctx.fillStyle = palette.shirt; ctx.fillRect(charX, charY + 6, 6, 8);
-        
+
         // Folded scrunched blanket
         ctx.fillStyle = palette.blanket;
         ctx.fillRect(16, 35, 14, 5);
         ctx.fillRect(15, 39, 16, 4);
-      } 
+      }
       else if (pose === 'walking') {
         // Tie cycle directly to linear progress, preventing frame skips from X pixel jumps
-        const cycleSteps = Math.floor(walkProgress * 24); 
+        const cycleSteps = Math.floor(walkProgress * 24);
         const cycleFrame = cycleSteps % 4; // 0, 1, 2, 3
-        
+
         // Bob down on frames 1 and 3
         const charBob = (cycleFrame === 1 || cycleFrame === 3) ? 1 : 0;
-        
+
         // Bobbing body
         ctx.fillStyle = palette.skin; ctx.fillRect(charX, charY - charBob, 6, 6);
         ctx.fillStyle = palette.shirt; ctx.fillRect(charX, charY + 6 - charBob, 6, 8);
-        
+
         // Stepping Legs
         ctx.fillStyle = palette.pants;
         if (cycleFrame === 0 || cycleFrame === 2) {
@@ -261,23 +261,23 @@ export default function IntroSequence({ onComplete }) {
           ctx.fillRect(charX + 1, charY + 14 - charBob, 2, 6);
           ctx.fillRect(charX + 5, charY + 14 - charBob, 2, 6);
         }
-        
+
         // Empty bed blanket
         ctx.fillStyle = palette.blanket;
         ctx.fillRect(12, 35, 18, 4);
         ctx.fillRect(14, 39, 12, 3);
-      } 
+      }
       else if (pose === 'sitting' || pose === 'monitor_on') {
-        ctx.fillStyle = palette.skin; ctx.fillRect(charX, charY, 6, 6); 
-        ctx.fillStyle = palette.shirt; ctx.fillRect(charX, charY + 6, 6, 8); 
+        ctx.fillStyle = palette.skin; ctx.fillRect(charX, charY, 6, 6);
+        ctx.fillStyle = palette.shirt; ctx.fillRect(charX, charY + 6, 6, 8);
         ctx.fillStyle = palette.pants; ctx.fillRect(charX, charY + 14, 6, 6); // folded sitting legs
-        
+
         if (pose === 'monitor_on') {
           // Arm pressing button exactly on the monitor base
           ctx.fillStyle = palette.skin;
           ctx.fillRect(charX + 6, charY + 7, 7, 2);
         }
-        
+
         // Empty bed blanket
         ctx.fillStyle = palette.blanket;
         ctx.fillRect(12, 35, 18, 4);
@@ -293,9 +293,9 @@ export default function IntroSequence({ onComplete }) {
         // Flashes bright screen perfectly fitted into monitor bounds
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(76, 20, 16, 10);
-        
+
         // Soft blue room glow overlay
-        const glowP = Math.min((p - 0.8) * 5, 0.4); 
+        const glowP = Math.min((p - 0.8) * 5, 0.4);
         ctx.fillStyle = `rgba(137, 180, 250, ${glowP})`;
         ctx.fillRect(0, 0, 100, 60);
       } else {
@@ -314,25 +314,25 @@ export default function IntroSequence({ onComplete }) {
 
   return (
     <div ref={containerRef} className="relative bg-[#0a0a14]" style={{ height: '500vh' }}>
-      <canvas 
-        ref={canvasRef} 
-        className="fixed top-0 left-0 w-full h-full pointer-events-none z-[9990]" 
+      <canvas
+        ref={canvasRef}
+        className="fixed top-0 left-0 w-full h-full pointer-events-none z-[9990]"
       />
-      
+
       {/* 0.6s CSS Dark Fade Interface */}
-      <div 
-        ref={fadeOverlayRef} 
+      <div
+        ref={fadeOverlayRef}
         className="fixed inset-0 bg-[#1e1e2e] pointer-events-none z-[10000] opacity-0 transition-opacity duration-700"
         style={{ transitionDuration: '600ms' }}
       />
-      
+
       {/* Scroll indicator - fades out quickly */}
       <div className="fixed bottom-10 left-1/2 -translate-x-1/2 text-subtext0 font-mono text-xs animate-bounce opacity-50 z-[10000]">
         Scroll Down
       </div>
 
       {/* Skip Button */}
-      <button 
+      <button
         onClick={(e) => {
           e.stopPropagation();
           playBootHum();

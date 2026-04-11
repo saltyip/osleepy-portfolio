@@ -205,7 +205,6 @@ export default function Terminal() {
         else if (step.type === 'output') {
           if (!active) return;
           // Use JSX for the intro sequence version for consistency
-          let content = step.text;
           if (step.text === 'shaarav') {
             setHistory(prev => [...prev, { type: 'jsx', content: <span className="text-yellow font-bold" style={{ color: '#f9e2af' }}>shaarav</span> }]);
           } else if (step.text.includes('Name:')) {

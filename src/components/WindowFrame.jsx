@@ -2,14 +2,14 @@ import { Rnd } from 'react-rnd';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function WindowFrame({ 
-  id, 
-  title, 
-  children, 
-  active, 
+export default function WindowFrame({
+  id,
+  title,
+  children,
+  active,
   zIndex,
-  onFocus, 
-  onClose, 
+  onFocus,
+  onClose,
   className,
   defaultSize = { w: 300, h: 'auto' },
   initialPos = { x: 100, y: 100 }
@@ -43,9 +43,9 @@ export default function WindowFrame({
         >
           <div className="title-bar h-10 bg-mantle/80 flex items-center px-4 cursor-move border-b border-surface0/50 shrink-0">
             <div className="dots flex gap-2">
-              <div 
+              <div
                 onClick={(e) => { e.stopPropagation(); onClose(id); }}
-                className="w-3 h-3 rounded-full bg-red hover:brightness-110 cursor-pointer" 
+                className="w-3 h-3 rounded-full bg-red hover:brightness-110 cursor-pointer"
               />
               <div className="w-3 h-3 rounded-full bg-yellow hover:brightness-110 cursor-pointer" />
               <div className="w-3 h-3 rounded-full bg-green hover:brightness-110 cursor-pointer" />

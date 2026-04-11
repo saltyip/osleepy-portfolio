@@ -40,7 +40,7 @@ export default function TextEditor() {
       </div>
       <div className="pl-6 flex-grow text-text whitespace-pre overflow-auto scrollbar-hide">
         <code className="text-blue">
-{`{
+          {`{
   "profile": {
     "name": "shaarav",
     "alias": "osleepy",
@@ -68,11 +68,11 @@ export default function TextEditor() {
   "approach": "builds real systems and actually understands why they work",
   "links": {
     "github": "`}
-<a href="https://github.com/saltyip" target="_blank" rel="noopener noreferrer" className="underline hover:brightness-110 cursor-pointer" style={{ color: '#89b4fa' }}>github.com/saltyip</a>
-{`",
+          <a href="https://github.com/saltyip" target="_blank" rel="noopener noreferrer" className="underline hover:brightness-110 cursor-pointer" style={{ color: '#89b4fa' }}>github.com/saltyip</a>
+          {`",
     "linkedin": "`}
-<a href="https://linkedin.com/in/shaaravsh" target="_blank" rel="noopener noreferrer" className="underline hover:brightness-110 cursor-pointer" style={{ color: '#89b4fa' }}>linkedin.com/in/shaaravsh</a>
-{`"
+          <a href="https://linkedin.com/in/shaaravsh" target="_blank" rel="noopener noreferrer" className="underline hover:brightness-110 cursor-pointer" style={{ color: '#89b4fa' }}>linkedin.com/in/shaaravsh</a>
+          {`"
   }
 }`}
         </code>

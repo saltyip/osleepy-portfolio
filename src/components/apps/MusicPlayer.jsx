@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, Pause, SkipBack, SkipForward, Disc } from 'lucide-react';
 
 const PALETTE = {
@@ -26,14 +26,20 @@ const ART = [
 ];
 
 const tracks = [
-  { title: 'Bedtime After a Coffee', file: '/music/barradeen-bedtime-after-a-coffee(chosic.com).mp3' },
+  { title: 'Downtown Glow', file: '/music/Ghostrifter-Official-Devyzed-Downtown-Glow(chosic.com).mp3' },
   { title: 'Double Rainbow', file: '/music/Double-Rainbow-chosic.com_.mp3' },
   { title: 'Echoes in Blue', file: '/music/echoes-in-blue-by-tokyo-music-walker-chosic.com_.mp3' },
-  { title: 'Downtown Glow', file: '/music/Ghostrifter-Official-Devyzed-Downtown-Glow(chosic.com).mp3' },
   { title: 'Golden Hour', file: '/music/Golden-Hour-chosic.com_.mp3' },
   { title: 'Little Wishes', file: '/music/Little-Wishes-chosic.com_.mp3' },
   { title: 'Roa - Beloved', file: '/music/Roa-Beloved(chosic.com).mp3' },
 ];
+
+const formatTime = (timeInSeconds) => {
+  if (isNaN(timeInSeconds)) return '0:00';
+  const m = Math.floor(timeInSeconds / 60);
+  const s = Math.floor(timeInSeconds % 60);
+  return `${m}:${s < 10 ? '0' : ''}${s}`;
+};
 
 export default function MusicPlayer() {
   const audioRef = useRef(null);
@@ -55,12 +61,17 @@ export default function MusicPlayer() {
     };
   }, []);
 
-  const formatTime = (timeInSeconds) => {
-    if (isNaN(timeInSeconds)) return '0:00';
-    const m = Math.floor(timeInSeconds / 60);
-    const s = Math.floor(timeInSeconds % 60);
-    return `${m}:${s < 10 ? '0' : ''}${s}`;
-  };
+  const playTrack = useCallback((index) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    setTrackIndex(index);
+    audio.src = tracks[index].file;
+    audio.load();
+    if (isPlaying) {
+      audio.play().catch(e => console.log('Audio playback prevented', e));
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -88,19 +99,7 @@ export default function MusicPlayer() {
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('ended', onEnded);
     };
-  }, [trackIndex]);
-
-  const playTrack = (index) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    setTrackIndex(index);
-    audio.src = tracks[index].file;
-    audio.load();
-    if (isPlaying) {
-      audio.play().catch(e => console.log('Audio playback prevented', e));
-    }
-  };
+  }, [trackIndex, playTrack]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
