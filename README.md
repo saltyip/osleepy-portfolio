@@ -1,16 +1,37 @@
-# React + Vite
+# osleepy portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+a pixel art desktop portfolio built with react + vite.
 
-Currently, two official plugins are available:
+## features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- pixel art scroll intro (bedroom → walk to desk → boot pc)
+- fake os boot screen with osleepy branding
+- interactive desktop with draggable/resizable windows
+- interactive terminal with neofetch, file system commands, and todos
+- lofi music player with real audio
+- project file manager with split pane preview
+- ui sounds and macos-style dock
 
-## React Compiler
+## stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- react + vite
+- tailwind css
+- framer motion
+- react-rnd
 
-## Expanding the ESLint configuration
+## windows
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| app | description |
+|---|---|
+| terminal | interactive shell with neofetch, whoami, ls, cat |
+| music player | lofi player with pixel art album cover |
+| file manager | projects with split pane preview |
+| profile.json | about me in vscode style |
+| notes | contact info and links |
+
+## local dev
+
+git clone https://github.com/saltyip/osleepy-portfolio
+cd osleepy-portfolio
+npm install
+npm run dev
