@@ -21,7 +21,7 @@ export const playClick = () => {
   osc.frequency.setValueAtTime(800, audioCtx.currentTime);
   osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.04);
 
-  gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
   gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
 
   osc.connect(gain);
@@ -66,20 +66,31 @@ export const playKeypress = () => {
 export const playBootHum = () => {
   if (!audioCtx || audioCtx.state === 'suspended') return;
 
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
+  const startTime = audioCtx.currentTime;
 
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(30, audioCtx.currentTime);
-  osc.frequency.linearRampToValueAtTime(70, audioCtx.currentTime + 0.5);
+  // Layer 1 — main cinematic sweep
+  const osc1 = audioCtx.createOscillator();
+  const gain1 = audioCtx.createGain();
+  osc1.type = 'triangle';
+  osc1.frequency.setValueAtTime(80, startTime);
+  osc1.frequency.linearRampToValueAtTime(180, startTime + 0.5);
+  gain1.gain.setValueAtTime(0, startTime);
+  gain1.gain.linearRampToValueAtTime(0.5, startTime + 0.1);
+  gain1.gain.exponentialRampToValueAtTime(0.01, startTime + 2.0);
+  osc1.connect(gain1);
+  gain1.connect(audioCtx.destination);
+  osc1.start(startTime);
+  osc1.stop(startTime + 2.0);
 
-  gain.gain.setValueAtTime(0, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1); // Sudden swell
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2.0); // Long decay fade
-
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-
-  osc.start();
-  osc.stop(audioCtx.currentTime + 2.0);
+  // Layer 2 — sub bass for depth
+  const osc2 = audioCtx.createOscillator();
+  const gain2 = audioCtx.createGain();
+  osc2.type = 'sine';
+  osc2.frequency.setValueAtTime(30, startTime);
+  gain2.gain.setValueAtTime(0.2, startTime);
+  gain2.gain.exponentialRampToValueAtTime(0.001, startTime + 1.5);
+  osc2.connect(gain2);
+  gain2.connect(audioCtx.destination);
+  osc2.start(startTime);
+  osc2.stop(startTime + 1.5);
 };
