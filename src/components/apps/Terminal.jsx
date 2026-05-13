@@ -96,7 +96,7 @@ const AboutOutput = () => {
 const ContactOutput = () => {
   const contacts = [
     { key: 'GitHub:', val: 'github.com/saltyip', url: 'https://github.com/saltyip' },
-    { key: 'LinkedIn:', val: 'linkedin.com/in/shaaravsh', url: 'https://linkedin.com/in/shaaravsh' },
+    { key: 'LinkedIn:', val: 'linkedin.com/in/shaaravsh', url: 'https://www.linkedin.com/in/shaaravs-sh/' },
   ];
 
   return (

@@ -7,12 +7,8 @@ export default function StickyNote() {
         <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
           Contact <span className="text-[10px] bg-crust/10 px-1 rounded">ME</span>
         </h2>
-        <p className="text-sm font-medium leading-relaxed mb-6 italic border-l-2 border-crust/20 pl-3">
-          "Reality is an illusion, the universe is a hologram, buy gold, bye!"
-        </p>
-
         <div className="space-y-4">
-          <a href="#" className="flex items-center gap-3 hover:translate-x-1 transition-transform group">
+          <a href="mailto:shaaravvvv@gmail.com" className="flex items-center gap-3 hover:translate-x-1 transition-transform group">
             <Mail size={16} />
             <span className="text-xs font-bold">shaaravvvv@gmail.com</span>
           </a>
@@ -40,7 +36,7 @@ export default function StickyNote() {
       </div>
 
       <div className="mt-6 pt-4 border-t border-crust/10 text-[10px] font-bold text-center opacity-70">
-        MODIFIED: 2026-04-11
+        MODIFIED: 2026-03-13
       </div>
     </div>
   );
