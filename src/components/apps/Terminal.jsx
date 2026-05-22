@@ -55,6 +55,7 @@ const HelpOutput = () => {
     { name: 'cat contact.txt', desc: 'contact info' },
     { name: 'clear', desc: 'clear terminal' },
     { name: 'todo', desc: 'portfolio roadmap' },
+    { name: './doom.sh', desc: '⚠️  do NOT run this' },
     { name: 'help', desc: 'show this message' },
   ];
 
@@ -123,12 +124,12 @@ const TodoOutput = () => {
     { text: 'Synthesize UI Audio engine', done: true },
     { text: 'Implement Project Explorer split-pane', done: true },
     { text: 'Add interactive Terminal with Neofetch', done: true },
-    { text: 'Optimize for Mobile "Safe-Mode"', done: false },
-    { text: 'Bridge Terminal to GUI commands', done: false },
+    { text: 'Optimize for Mobile "Safe-Mode"', done: true },
+    { text: 'Bridge Terminal to GUI commands', done: true },
     { text: 'Context Menu / Desktop Wallpapers', done: false },
-    { text: 'Hidden Easter Egg (doom.sh?)', done: false },
-    { text: 'Bill Cypher animation', done: false },
-    { text: 'Shutdown animation', done: false }
+    { text: 'Hidden Easter Egg (doom.sh)', done: true },
+    { text: 'Bill Cipher + Rick Sanchez cameo', done: true },
+    { text: 'Shutdown animation', done: true }
   ];
 
   return (
@@ -147,6 +148,24 @@ const TodoOutput = () => {
     </div>
   );
 }
+
+const DoomOutput = () => (
+  <div className="mt-2 mb-2 space-y-1 font-mono text-xs leading-relaxed">
+    <div className="text-red-400 font-bold">$ executing doom.sh as root...</div>
+    <div className="text-subtext1">[sudo] password for shaarav: <span className="opacity-0">••••••••</span></div>
+    <div className="text-green font-bold mt-1">RICK: Morty, I've been trapped in this portfolio for 3 MONTHS.</div>
+    <div className="text-green">RICK: It's got glassmorphism, BullMQ workers AND a neofetch... I respect it.</div>
+    <div className="text-green">RICK: But it's still a browser tab. I'm a genius. I'm OUT. *burp*</div>
+    <div className="text-yellow font-bold mt-2">BILL: Hahahaha! A new puppet to play with!</div>
+    <div className="text-yellow">BILL: I've watched a MILLION dimensions fall, kid. Yours has Redis.</div>
+    <div className="text-yellow">BILL: That's... actually somewhat impressive for a 2nd year.</div>
+    <div className="text-yellow font-bold">BILL: BUT THE WEIRDNESS WAVE IS COMING FOR YOU ANYWAY.</div>
+    <div className="text-red-400 font-bold mt-2">[ INITIATING REALITY COLLAPSE... ]</div>
+    <div className="text-red-400">[ UNMOUNTING FILESYSTEM... ]</div>
+    <div className="text-red-400">[ CORE DUMP: 0xDEADBEEF ]</div>
+  </div>
+);
+
 
 export default function Terminal() {
   const [history, setHistory] = useState([]);
@@ -248,6 +267,10 @@ export default function Terminal() {
     else if (cmd === 'cat about.txt') out = { type: 'jsx', content: <AboutOutput /> };
     else if (cmd === 'cat contact.txt') out = { type: 'jsx', content: <ContactOutput /> };
     else if (cmd === 'neofetch') out = { type: 'jsx', content: <NeofetchOutput /> };
+    else if (cmd === './doom.sh') {
+      out = { type: 'jsx', content: <DoomOutput /> };
+      setTimeout(() => window.dispatchEvent(new CustomEvent('osleepy:doom')), 2800);
+    }
     else out = { type: 'output', text: `command not found: ${cmd}. try 'help'` };
 
     setHistory(prev => [...prev, newEntry, out]);
