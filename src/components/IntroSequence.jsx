@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { playBootHum, playClick } from '../utils/sfx';
 
-export default function IntroSequence({ onComplete }) {
+export default function IntroSequence({ onComplete, onSkip }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const fadeOverlayRef = useRef(null);
+  const scrollIndicatorRef = useRef(null);
   const targetProgressRef = useRef(0);
   const currentProgressRef = useRef(0);
   const rafRef = useRef(null);
@@ -67,6 +68,11 @@ export default function IntroSequence({ onComplete }) {
       currentProgressRef.current += (targetProgressRef.current - currentProgressRef.current) * 0.12;
       const progress = currentProgressRef.current;
       draw(progress);
+
+      if (scrollIndicatorRef.current) {
+        // Fades out completely within the first 16% of scroll progress
+        scrollIndicatorRef.current.style.opacity = Math.max(0, 1 - progress * 6);
+      }
 
       // Trigger CSS fade explicitly decoupling it from the scroll jitter
       if (progress >= 0.95) {
@@ -327,8 +333,11 @@ export default function IntroSequence({ onComplete }) {
       />
 
       {/* Scroll indicator - fades out quickly */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 text-subtext0 font-mono text-xs animate-bounce opacity-50 z-[10000]">
-        Scroll Down
+      <div
+        ref={scrollIndicatorRef}
+        className="fixed bottom-12 left-1/2 -translate-x-1/2 text-mauve font-mono text-xs font-bold tracking-widest animate-bounce z-[10000] flex flex-col items-center gap-1 select-none"
+      >
+        <span>↓ scroll down to walk ↓</span>
       </div>
 
       {/* Skip Button */}
@@ -336,11 +345,15 @@ export default function IntroSequence({ onComplete }) {
         onClick={(e) => {
           e.stopPropagation();
           playBootHum();
-          onComplete();
+          if (onSkip) {
+            onSkip();
+          } else {
+            onComplete();
+          }
         }}
-        className="fixed bottom-10 right-10 text-subtext0 font-mono text-xs opacity-40 hover:opacity-100 transition-opacity z-[10001] bg-transparent border-none cursor-pointer p-2 uppercase tracking-widest"
+        className="fixed bottom-10 right-10 text-subtext0 hover:text-mauve font-mono text-xs opacity-60 hover:opacity-100 transition-all z-[10001] bg-[#181825]/80 border border-surface1 hover:border-mauve rounded-lg px-3 py-1.5 cursor-pointer uppercase tracking-widest shadow-lg"
       >
-        [ skip intro ]
+        [ skip to desktop ]
       </button>
     </div>
   );

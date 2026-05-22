@@ -31,7 +31,7 @@ export default function Dock({ apps, openWindows, onToggle, activeWindow }) {
               whileHover={{ scale: 1.25, y: -8 }}
               whileTap={{ scale: 0.95 }}
               className={clsx(
-                "relative flex items-center justify-center w-12 h-12 rounded-xl cursor-pointer shadow-md origin-bottom",
+                "group relative flex items-center justify-center w-12 h-12 rounded-xl cursor-pointer shadow-md origin-bottom",
                 isActive ? "bg-surface2 border border-mauve/40" : "bg-surface0",
                 !isOpen && "opacity-70 grayscale hover:grayscale-0"
               )}
@@ -44,7 +44,7 @@ export default function Dock({ apps, openWindows, onToggle, activeWindow }) {
               )}
 
               {/* Tooltip */}
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface1/90 text-[10px] font-bold text-text rounded opacity-0 hover:opacity-0 transition-opacity border border-surface2 whitespace-nowrap pointer-events-none group-hover:opacity-100">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface1/90 text-[10px] font-bold text-text rounded opacity-0 transition-opacity border border-surface2 whitespace-nowrap pointer-events-none group-hover:opacity-100">
                 {config.title}
               </div>
             </motion.div>

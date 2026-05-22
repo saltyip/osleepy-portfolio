@@ -74,11 +74,11 @@ const HelpOutput = () => {
 const AboutOutput = () => {
   const info = [
     { key: 'Name:', val: 'shaarav' },
-    { key: 'Role:', val: 'backend developer' },
-    { key: 'OS:', val: 'osleepy' },
-    { key: 'Editor:', val: 'neovim / lazyvim' },
-    { key: 'Stack:', val: 'node.js, postgresql, redis, bullmq' },
-    { key: 'Learning:', val: 'docker, system design' },
+    { key: 'Education:', val: '2nd year CS student (B.Tech 2024–2028)' },
+    { key: 'Focus:', val: 'Backend-focused: Node, PostgreSQL, Redis, BullMQ' },
+    { key: 'Currently:', val: 'Building production-grade systems' },
+    { key: 'Interests:', val: 'AppSec, Distributed Systems' },
+    { key: 'Avoid:', val: 'Tutorial projects' }
   ];
 
   return (
