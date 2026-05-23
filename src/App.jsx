@@ -209,7 +209,7 @@ export default function App() {
                 localStorage.setItem('devlog_intro_seen', 'true');
                 setWindowStack(prev => prev.filter(w => w !== 'devlogIntro'));
               }}
-              initialPos={{ x: 120, y: 150 }}
+              initialPos={{ x: 960, y: 150 }}
               defaultSize={{ w: 380, h: 220 }}
             >
               <div className="flex flex-col h-full p-5 font-mono text-xs text-text justify-between">
