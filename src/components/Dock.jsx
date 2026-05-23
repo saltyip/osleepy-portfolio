@@ -23,23 +23,30 @@ export default function Dock({ apps, openWindows, onToggle, activeWindow }) {
         {Object.entries(apps).map(([id, config]) => {
           const isOpen = openWindows[id];
           const isActive = activeWindow === id && isOpen;
+          const isExternal = config.isExternal;
 
           return (
             <motion.div
               key={id}
-              onClick={() => onToggle(id)}
+              onClick={() => {
+                if (isExternal) {
+                  window.open(config.url, '_blank');
+                } else {
+                  onToggle(id);
+                }
+              }}
               whileHover={{ scale: 1.25, y: -8 }}
               whileTap={{ scale: 0.95 }}
               className={clsx(
                 "group relative flex items-center justify-center w-12 h-12 rounded-xl cursor-pointer shadow-md origin-bottom",
                 isActive ? "bg-surface2 border border-mauve/40" : "bg-surface0",
-                !isOpen && "opacity-70 grayscale hover:grayscale-0"
+                (!isOpen && !isExternal) && "opacity-70 grayscale hover:grayscale-0"
               )}
             >
-              <div className="text-2xl">{config.icon}</div>
+              <div className="text-2xl flex items-center justify-center">{config.icon}</div>
 
               {/* Active Indicator */}
-              {isOpen && (
+              {isOpen && !isExternal && (
                 <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-mauve rounded-full shadow-[0_0_5px_var(--color-mauve)]" />
               )}
 

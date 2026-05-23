@@ -12,13 +12,16 @@ import BootScreen from './components/BootScreen';
 import ClickToBegin from './components/ClickToBegin';
 import MobileView from './components/MobileView';
 import { playClick } from './utils/sfx';
+import { ScrollText } from 'lucide-react';
+import NotificationToast from './components/NotificationToast';
 
 const APPS = {
   terminal: { title: 'osleepy@cachyos: ~', icon: '💻', component: Terminal, pos: { x: 40, y: 50 }, size: { w: 580, h: 440 } },
   music: { title: 'Music Player', icon: '🎵', component: MusicPlayer, pos: { x: 660, y: 50 }, size: { w: 300, h: 500 } },
   files: { title: '~/projects', icon: '📂', component: FileManager, pos: { x: 80, y: 70 }, size: { w: 820, h: 540 } },
   sticky: { title: 'Notes', icon: '📝', component: StickyNote, pos: { x: 1540, y: 70 }, size: { w: 300, h: 380 } },
-  editor: { title: 'profile.json — VSC', icon: '⌨️', component: TextEditor, pos: { x: 740, y: 120 }, size: { w: 780, h: 520 } }
+  editor: { title: 'profile.json — VSC', icon: '⌨️', component: TextEditor, pos: { x: 740, y: 120 }, size: { w: 780, h: 520 } },
+  devlog: { title: 'Devlog', icon: <ScrollText className="w-8 h-8 text-mauve" />, isExternal: true, url: 'https://devlog-app-beta.vercel.app/' }
 };
 
 export default function App() {
@@ -56,7 +59,15 @@ export default function App() {
     editor: true
   });
 
-  const [windowStack, setWindowStack] = useState(['editor', 'sticky', 'files']);
+  const [showDevlogIntro, setShowDevlogIntro] = useState(() => {
+    return !localStorage.getItem('devlog_intro_seen');
+  });
+
+  const [windowStack, setWindowStack] = useState(() => {
+    const hasIntro = !localStorage.getItem('devlog_intro_seen');
+    const baseStack = ['editor', 'sticky', 'files'];
+    return hasIntro ? [...baseStack, 'devlogIntro'] : baseStack;
+  });
   const activeWindow = windowStack[windowStack.length - 1];
 
   const focusWindow = (id) => {
@@ -138,15 +149,22 @@ export default function App() {
                 music: 'lofi_player',
                 files: 'projects',
                 sticky: 'notes.txt',
-                editor: 'profile.json'
+                editor: 'profile.json',
+                devlog: 'devlog'
               };
               return (
                 <div
                   key={id}
-                  onClick={() => toggleWindow(id, true)}
+                  onClick={() => {
+                    if (config.isExternal) {
+                      window.open(config.url, '_blank');
+                    } else {
+                      toggleWindow(id, true);
+                    }
+                  }}
                   className="flex flex-col items-center justify-center w-16 h-16 rounded-xl cursor-pointer hover:bg-surface0/30 active:scale-95 transition-all gap-1 group text-center select-none"
                 >
-                  <div className="text-3xl filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-200">
+                  <div className="text-3xl flex items-center justify-center w-10 h-10 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-200">
                     {config.icon}
                   </div>
                   <div className="text-[9px] font-bold text-text/80 group-hover:text-mauve transition-colors truncate max-w-[64px] px-1 filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] font-mono">
@@ -158,7 +176,7 @@ export default function App() {
           </div>
 
           {Object.entries(APPS).map(([id, config]) => {
-            if (!openWindows[id]) return null;
+            if (!openWindows[id] || config.isExternal) return null;
 
             const Content = config.component;
             return (
@@ -177,6 +195,47 @@ export default function App() {
               </WindowFrame>
             );
           })}
+
+          {showDevlogIntro && (
+            <WindowFrame
+              id="devlogIntro"
+              title="about-devlog.txt"
+              active={activeWindow === 'devlogIntro'}
+              zIndex={windowStack.indexOf('devlogIntro') !== -1 ? windowStack.indexOf('devlogIntro') + 10 : 99}
+              onFocus={() => focusWindow('devlogIntro')}
+              onClose={() => {
+                playClick();
+                setShowDevlogIntro(false);
+                localStorage.setItem('devlog_intro_seen', 'true');
+                setWindowStack(prev => prev.filter(w => w !== 'devlogIntro'));
+              }}
+              initialPos={{ x: 120, y: 150 }}
+              defaultSize={{ w: 380, h: 220 }}
+            >
+              <div className="flex flex-col h-full p-5 font-mono text-xs text-text justify-between">
+                <div className="space-y-3">
+                  <div className="text-mauve font-bold">/** blog: ... */ comments</div>
+                  <p className="text-subtext0 leading-relaxed">
+                    This portfolio integrates a live devlog that parses custom JSDoc-style comments directly from my codebase in real-time.
+                  </p>
+                  <p className="text-subtext1 leading-relaxed">
+                    Every commit containing updates inside codeblocks marked with these comments automatically updates devlog.shaarav.dev.
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    playClick();
+                    setShowDevlogIntro(false);
+                    localStorage.setItem('devlog_intro_seen', 'true');
+                    setWindowStack(prev => prev.filter(w => w !== 'devlogIntro'));
+                  }}
+                  className="mt-4 w-full py-2 bg-mauve/10 border border-mauve/30 text-mauve hover:bg-mauve/20 rounded-lg font-bold transition-all active:scale-95 cursor-pointer text-center"
+                >
+                  Dismiss
+                </button>
+              </div>
+            </WindowFrame>
+          )}
         </div>
 
         <Dock
@@ -185,6 +244,8 @@ export default function App() {
           onToggle={toggleWindow}
           activeWindow={activeWindow}
         />
+
+        <NotificationToast />
       </div>
 
       {doomStage >= 2 && doomStage < 4 && (

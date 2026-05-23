@@ -6,12 +6,14 @@ import {
   X,
   Code,
   ExternalLink,
+  ScrollText,
 } from "lucide-react";
 
 const projects = [
   {
     id: 1,
     name: "JWT Redis Auth API",
+    repo: "jwt-redis-auth-api",
     tags: ["Node.js", "Express", "JWT", "Redis", "REST API"],
     description:
       "A secure and production-ready REST API featuring JWT access/refresh token rotation, Redis-backed session management, and rate limiting.",
@@ -26,6 +28,7 @@ const projects = [
   {
     id: 2,
     name: "Email Queue Service",
+    repo: "emailqueue",
     tags: ["Node.js", "Express", "BullMQ", "Redis", "PostgreSQL", "Nodemailer"],
     description:
       "A background job queue that handles email delivery asynchronously using BullMQ and Redis. Jobs are queued instantly, processed by a worker with concurrency and automatic retry on failure, and logged to PostgreSQL.",
@@ -40,6 +43,7 @@ const projects = [
   {
     id: 3,
     name: "URL Shortener",
+    repo: "urlshortnercongential",
     tags: ["Node.js", "PostgreSQL", "Redis", "JWT"],
     description:
       "A production-style URL shortening service built with Node.js and PostgreSQL. Focuses on reliability, performance, and security rather than just the core shortening logic.",
@@ -54,6 +58,7 @@ const projects = [
   {
     id: 4,
     name: "Nudge CLI Tool",
+    repo: "nudge",
     tags: ["Node.js", "Shell", "CLI", "Arch Linux"],
     description:
       "A minimalist CLI reminder and task management tool built in Node.js for CachyOS and Arch Linux. Features natural language time parsing, background process monitoring, and shell integration for instant command-completion notifications.",
@@ -68,6 +73,7 @@ const projects = [
   {
     id: 5,
     name: "Dotfiles & Linux Tooling",
+    repo: "saltydotfiles",
     tags: ["Shell", "Lua", "Python", "Neovim"],
     description:
       "Personal dotfiles and configs — fastfetch, fish, helix, kitty, neovim/lazyvim, and vicinae. Configs and wallpapers for a clean osleepy setup.",
@@ -101,11 +107,10 @@ export default function FileManager() {
             <div
               key={proj.id}
               onClick={() => setSelectedProject(proj)}
-              className={`group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all active:scale-[0.98] ${
-                selectedProject?.id === proj.id
+              className={`group flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-all active:scale-[0.98] ${selectedProject?.id === proj.id
                   ? "bg-[#313244]"
                   : "hover:bg-surface0"
-              }`}
+                }`}
             >
               <Folder
                 size={18}
@@ -185,6 +190,17 @@ export default function FileManager() {
               <ExternalLink size={14} />
               Live Demo
             </a>
+            {selectedProject.repo && (
+              <a
+                href={`https://devlog-app-beta.vercel.app/project/${selectedProject.repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-[#313244] text-[#cdd6f4] hover:text-[#cba6f7] text-xs font-bold rounded-lg transition-all active:scale-95"
+              >
+                <ScrollText size={14} />
+                Devlog
+              </a>
+            )}
           </div>
         </div>
       )}

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Mail, CodeXml, ExternalLink, ChevronDown, ChevronUp, Download } from 'lucide-react';
+import { Mail, CodeXml, ExternalLink, ChevronDown, ChevronUp, Download, ScrollText } from 'lucide-react';
 
 const projects = [
   {
     name: "JWT Redis Auth API",
+    repo: "jwt-redis-auth-api",
     tags: ["Node.js", "Express", "JWT", "Redis", "REST API"],
     description: "A secure and production-ready REST API featuring JWT access/refresh token rotation, Redis-backed session management, and rate limiting.",
     github: "https://github.com/saltyip/jwt-redis-auth-api",
@@ -15,6 +16,7 @@ const projects = [
   },
   {
     name: "Email Queue Service",
+    repo: "emailqueue",
     tags: ["Node.js", "Express", "BullMQ", "Redis", "PostgreSQL", "Nodemailer"],
     description: "A background job queue that handles email delivery asynchronously using BullMQ and Redis. Jobs are queued instantly, processed by a worker with concurrency and automatic retry on failure, and logged to PostgreSQL.",
     github: "https://github.com/saltyip/emailqueue",
@@ -26,6 +28,7 @@ const projects = [
   },
   {
     name: "URL Shortener",
+    repo: "urlshortnercongential",
     tags: ["Node.js", "PostgreSQL", "Redis", "JWT"],
     description: "A production-style URL shortening service built with Node.js and PostgreSQL. Focuses on reliability, performance, and security rather than just the core shortening logic.",
     github: "https://github.com/saltyip/urlshortnercongential",
@@ -37,6 +40,7 @@ const projects = [
   },
   {
     name: "Nudge CLI Tool",
+    repo: "nudge",
     tags: ["Node.js", "Shell", "CLI", "Arch Linux"],
     description: "A minimalist CLI reminder and task management tool built in Node.js for CachyOS and Arch Linux. Features natural language time parsing, background process monitoring, and shell integration for instant command-completion notifications.",
     github: "https://github.com/saltyip/nudge",
@@ -48,6 +52,7 @@ const projects = [
   },
   {
     name: "Dotfiles & Linux Tooling",
+    repo: "saltydotfiles",
     tags: ["Shell", "Lua", "Python", "Neovim"],
     description: "Personal dotfiles and configs — fastfetch, fish, helix, kitty, neovim/lazyvim, and vicinae. Configs and wallpapers for a clean osleepy setup.",
     github: "https://github.com/saltyip/saltydotfiles",
@@ -140,15 +145,28 @@ export default function MobileView() {
                       </ul>
                     </div>
 
-                    <a
-                      href={proj.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 bg-mauve hover:bg-mauve/90 text-[#11111b] font-bold text-xs py-2 px-4 rounded-lg transition-colors cursor-pointer text-center"
-                    >
-                      <CodeXml size={14} />
-                      <span>View GitHub Repository</span>
-                    </a>
+                    <div className="flex gap-2 w-full">
+                      <a
+                        href={proj.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 bg-[#313244] hover:bg-[#45475a] text-[#cdd6f4] hover:text-[#cba6f7] font-bold text-xs py-2 px-4 rounded-lg transition-colors cursor-pointer text-center"
+                      >
+                        <CodeXml size={14} />
+                        <span>GitHub</span>
+                      </a>
+                      {proj.repo && (
+                        <a
+                          href={`https://devlog-app-beta.vercel.app/project/${proj.repo}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-2 bg-[#313244] hover:bg-[#45475a] text-[#cdd6f4] hover:text-[#cba6f7] font-bold text-xs py-2 px-4 rounded-lg transition-colors cursor-pointer text-center"
+                        >
+                          <ScrollText size={14} />
+                          <span>Devlog</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
