@@ -19,26 +19,12 @@ export default function TextEditor() {
   "philosophy": {
     "avoid": ["copy-paste tutorial projects", "shallow templates"],
     "prefer": ["building backend primitives from scratch", "measuring benchmarks in milliseconds"],
-    "approach": "tunes systems until the telemetry metrics stop looking ugly"
+    "approach": "iterates until the system actually works, not just runs"
   },
   "technical_focus": {
     "primary_stack": ["node.js", "postgresql", "redis", "bullmq"],
-    "environments": ["arch linux", "neovim / lazyvim", "git / github"],
-    "appsec_interests": ["jwt key rotation mechanics", "rate-limiting modules", "session blacklist revocation"]
-  },
-  "currently_building": {
-    "goal": "production-grade backend templates featuring exponential backoffs and distributed cache checks",
-    "status": "fully immersed in systems design and network protocols"
-  },
-  "links": {
-    "github": "`}
-          <a href="https://github.com/saltyip" target="_blank" rel="noopener noreferrer" className="underline hover:text-mauve cursor-pointer transition-colors" style={{ color: '#89dceb' }}>github.com/saltyip</a>
-          {`",
-    "linkedin": "`}
-          <a href="https://linkedin.com/in/shaaravsh" target="_blank" rel="noopener noreferrer" className="underline hover:text-mauve cursor-pointer transition-colors" style={{ color: '#89dceb' }}>linkedin.com/in/shaaravsh</a>
-          {`"
-  }
-}`}
+    "environments": ["arch linux (cachyos)", "neovim / lazyvim", "git / github"]
+  }`}
         </code>
       </div>
     </div>
