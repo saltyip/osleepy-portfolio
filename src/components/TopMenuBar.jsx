@@ -12,7 +12,9 @@ export default function TopMenuBar() {
   return (
     <div className="fixed top-0 left-0 w-full h-7 bg-mantle/70 backdrop-blur-md border-b border-surface0 flex items-center justify-between px-4 z-[2000] text-xs font-medium text-text select-none">
       <div className="flex items-center gap-4">
-        <span className="font-bold cursor-pointer hover:text-mauve transition-colors">Osleepy</span>
+        <span className="font-bold cursor-pointer hover:text-mauve transition-colors flex items-center gap-2">
+          <span className="text-[11px] font-black tracking-[-0.1em] opacity-80">(●—●)</span> Osleepy
+        </span>
         <span className="cursor-pointer hover:bg-surface0 px-2 py-0.5 rounded transition-colors font-bold">File</span>
         <span className="cursor-pointer hover:bg-surface0 px-2 py-0.5 rounded transition-colors hidden sm:block">Edit</span>
         <span className="cursor-pointer hover:bg-surface0 px-2 py-0.5 rounded transition-colors hidden sm:block">View</span>

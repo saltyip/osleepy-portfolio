@@ -3,9 +3,29 @@ import { Mail, CodeXml, ExternalLink, Download } from 'lucide-react';
 export default function StickyNote() {
   return (
     <div
-      className="h-full w-full flex flex-col p-5 gap-5"
+      className="h-full w-full flex flex-col p-5 gap-5 relative overflow-hidden"
       style={{ background: '#f9e2af', color: '#11111b', fontFamily: 'Inter, system-ui, sans-serif' }}
     >
+      {/* Gravity Falls Journal Watermark */}
+      <div className="absolute top-[-20px] right-[-20px] opacity-10 rotate-12 select-none pointer-events-none font-serif text-[180px] font-black" style={{ color: '#881111' }}>
+        3
+      </div>
+      <div className="absolute bottom-4 right-4 opacity-[0.05] rotate-[-15deg] select-none pointer-events-none">
+         {/* Six-fingered hand SVG */}
+         <svg width="80" height="100" viewBox="0 0 100 120" fill="none" stroke="#881111" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+            {/* Palm */}
+            <path d="M30 110 C 10 110, 10 70, 20 50" />
+            <path d="M70 110 C 90 110, 90 70, 80 50" />
+            {/* 6 Fingers */}
+            <path d="M20 50 L 10 20 A 5 5 0 0 1 20 20 L 30 50" />
+            <path d="M30 50 L 25 10 A 5 5 0 0 1 35 10 L 45 50" />
+            <path d="M45 50 L 45 5 A 5 5 0 0 1 55 5 L 55 50" />
+            <path d="M55 50 L 65 10 A 5 5 0 0 1 75 10 L 65 50" />
+            <path d="M65 50 L 80 20 A 5 5 0 0 1 90 25 L 75 55" />
+            <path d="M75 55 L 95 40 A 5 5 0 0 1 100 50 L 80 70" />
+         </svg>
+      </div>
+
       {/* Header */}
       <div className="border-b border-[#11111b]/15 pb-3">
         <div className="text-[11px] font-semibold uppercase tracking-[0.15em] opacity-50 mb-1">pinned</div>

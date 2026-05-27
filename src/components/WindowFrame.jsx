@@ -36,12 +36,12 @@ export default function WindowFrame({
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.2 }}
           className={clsx(
-            "window-glass rounded-xl overflow-hidden flex flex-col w-full h-full",
-            active ? "border-mauve shadow-[0_20px_50px_rgba(0,0,0,0.7)]" : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]",
+            "window-glass rounded-2xl overflow-hidden flex flex-col w-full h-full transition-[box-shadow,border] duration-300",
+            active ? "border-[rgba(203,166,247,0.4)] shadow-[0_30px_60px_rgba(0,0,0,0.7),0_0_20px_rgba(203,166,247,0.15)]" : "",
             className
           )}
         >
-          <div className="title-bar h-10 bg-mantle/80 flex items-center px-4 cursor-move border-b border-surface0/50 shrink-0">
+          <div className="title-bar h-10 bg-transparent flex items-center px-4 cursor-move border-b border-white/[0.05] shrink-0">
             <div className="dots flex gap-2">
               <div
                 onClick={(e) => { e.stopPropagation(); onClose(id); }}

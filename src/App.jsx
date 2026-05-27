@@ -7,9 +7,8 @@ import MusicPlayer from './components/apps/MusicPlayer';
 import FileManager from './components/apps/FileManager';
 import StickyNote from './components/apps/StickyNote';
 import TextEditor from './components/apps/TextEditor';
-import IntroSequence from './components/IntroSequence';
+import WakeUpSequence from './components/WakeUpSequence';
 import BootScreen from './components/BootScreen';
-import ClickToBegin from './components/ClickToBegin';
 import MobileView from './components/MobileView';
 import { playClick } from './utils/sfx';
 
@@ -26,7 +25,7 @@ const APPS = {
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
-  const [appState, setAppState] = useState('click'); // click -> intro -> boot -> desktop
+  const [appState, setAppState] = useState('wakeup'); // wakeup -> desktop
   const [isDoomed, setIsDoomed] = useState(false);
   const [doomStage, setDoomStage] = useState(0);
 
@@ -97,16 +96,8 @@ export default function App() {
     return <MobileView />;
   }
 
-  if (appState === 'click') {
-    return <ClickToBegin onStart={() => setAppState('intro')} />;
-  }
-
-  if (appState === 'intro') {
-    return <IntroSequence onComplete={() => setAppState('boot')} onSkip={() => setAppState('desktop')} />;
-  }
-
-  if (appState === 'boot') {
-    return <BootScreen onComplete={() => setAppState('desktop')} />;
+  if (appState === 'wakeup') {
+    return <WakeUpSequence onComplete={() => setAppState('desktop')} />;
   }
 
   return (
@@ -129,10 +120,14 @@ export default function App() {
           .animate-shake {
             animation: violent-shake 0.3s infinite;
           }
+          @keyframes desktopFadeIn {
+            0% { opacity: 0; filter: brightness(0); }
+            100% { opacity: 1; filter: brightness(1); }
+          }
         `}</style>
       )}
 
-      <div className={`relative h-screen w-full overflow-hidden select-none pt-7 transition-all duration-[2000ms] ease-in-out
+      <div className={`relative h-screen w-full overflow-hidden select-none pt-7 transition-all duration-[2000ms] ease-in-out animate-[desktopFadeIn_1.5s_ease-out]
         ${doomStage >= 1 ? 'animate-shake' : ''}
         ${doomStage >= 2 ? 'invert hue-rotate-180 contrast-[200%] grayscale-[0.5]' : ''}
         ${doomStage >= 4 ? 'hidden' : ''}
@@ -141,6 +136,38 @@ export default function App() {
 
         {/* Desktop Area */}
         <div className="absolute inset-0 z-0 pt-7">
+          {/* Custom Personality Wallpaper (Static, High Performance) */}
+          <div className="absolute inset-0 z-[-2] bg-[#0a0a14] overflow-hidden pointer-events-none">
+            {/* Blueprint Grid (Tech/BH6) */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(137,180,250,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(137,180,250,0.03)_1px,transparent_1px)] bg-[size:40px_40px]" />
+            
+            {/* Massive Portal/Zodiac Swirl (Rick & Morty / Gravity Falls) */}
+            <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] opacity-[0.03] min-w-[800px]" viewBox="0 0 1000 1000" fill="none">
+              <circle cx="500" cy="500" r="300" stroke="#a6e3a1" strokeWidth="2" strokeDasharray="10 20" />
+              <circle cx="500" cy="500" r="400" stroke="#cba6f7" strokeWidth="1" />
+              <circle cx="500" cy="500" r="450" stroke="#f38ba8" strokeWidth="4" strokeDasharray="2 40" />
+              <path d="M 500 100 Q 600 500 500 900 Q 400 500 500 100" stroke="#89b4fa" strokeWidth="1" />
+              <path d="M 100 500 Q 500 600 900 500 Q 500 400 100 500" stroke="#89b4fa" strokeWidth="1" />
+              
+              {/* Gravity Falls Triangle */}
+              <polygon points="500,250 700,650 300,650" stroke="#f9e2af" strokeWidth="3" strokeDasharray="5 5" />
+              <circle cx="500" cy="500" r="40" stroke="#f9e2af" strokeWidth="2" />
+              
+              {/* BH6 Microbot Connections */}
+              <circle cx="300" cy="300" r="10" fill="#cdd6f4" />
+              <circle cx="700" cy="300" r="10" fill="#cdd6f4" />
+              <circle cx="300" cy="700" r="10" fill="#cdd6f4" />
+              <circle cx="700" cy="700" r="10" fill="#cdd6f4" />
+              <line x1="300" y1="300" x2="500" y2="500" stroke="#cdd6f4" strokeWidth="1" />
+              <line x1="700" y1="300" x2="500" y2="500" stroke="#cdd6f4" strokeWidth="1" />
+              <line x1="300" y1="700" x2="500" y2="500" stroke="#cdd6f4" strokeWidth="1" />
+              <line x1="700" y1="700" x2="500" y2="500" stroke="#cdd6f4" strokeWidth="1" />
+            </svg>
+            
+            {/* Vignette border to blend it all into the dark edges */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,#0a0a14_100%)]" />
+          </div>
+
           {/* Desktop Shortcut Icons (Linux Desktop Shell Feel) */}
           <div className="absolute left-6 top-16 flex flex-col gap-5 z-0">
             {Object.entries(APPS).map(([id, config]) => {
@@ -162,12 +189,12 @@ export default function App() {
                       toggleWindow(id, true);
                     }
                   }}
-                  className="flex flex-col items-center justify-center w-16 h-16 rounded-xl cursor-pointer hover:bg-surface0/30 active:scale-95 transition-all gap-1 group text-center select-none"
+                  className="flex flex-col items-center justify-center w-24 h-28 rounded-2xl cursor-pointer bg-white/[0.02] border border-white/5 hover:bg-white/[0.08] hover:border-white/10 backdrop-blur-md active:scale-95 transition-all gap-3 group text-center select-none shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
                 >
-                  <div className="text-3xl flex items-center justify-center w-10 h-10 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] group-hover:scale-110 transition-transform duration-200">
+                  <div className="text-4xl flex items-center justify-center w-12 h-12 filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)] group-hover:-translate-y-1 group-hover:scale-110 transition-transform duration-300">
                     {config.icon}
                   </div>
-                  <div className="text-[9px] font-bold text-text/80 group-hover:text-mauve transition-colors truncate max-w-[64px] px-1 filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] font-mono">
+                  <div className="text-[10px] font-bold text-[#bac2de] group-hover:text-[#cba6f7] transition-colors truncate w-full px-2 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-mono uppercase tracking-widest">
                     {labels[id] || id}
                   </div>
                 </div>
