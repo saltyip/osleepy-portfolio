@@ -12,7 +12,7 @@ import BootScreen from './components/BootScreen';
 import ClickToBegin from './components/ClickToBegin';
 import MobileView from './components/MobileView';
 import { playClick } from './utils/sfx';
-import { ScrollText } from 'lucide-react';
+
 import NotificationToast from './components/NotificationToast';
 
 const APPS = {
@@ -21,7 +21,7 @@ const APPS = {
   files: { title: '~/projects', icon: '📂', component: FileManager, pos: { x: 80, y: 70 }, size: { w: 820, h: 540 } },
   sticky: { title: 'Notes', icon: '📝', component: StickyNote, pos: { x: 1540, y: 70 }, size: { w: 300, h: 380 } },
   editor: { title: 'profile.json — VSC', icon: '⌨️', component: TextEditor, pos: { x: 740, y: 120 }, size: { w: 780, h: 520 } },
-  devlog: { title: 'Devlog', icon: <ScrollText className="w-8 h-8 text-mauve" />, isExternal: true, url: 'https://devlog-app-beta.vercel.app/' }
+  devlog: { title: 'Devlog', icon: '📰', isExternal: true, url: 'https://devlog-app-beta.vercel.app/' }
 };
 
 export default function App() {

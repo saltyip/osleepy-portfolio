@@ -9,86 +9,11 @@ import {
   ScrollText,
 } from "lucide-react";
 
-const projects = [
-  {
-    id: 1,
-    name: "JWT Redis Auth API",
-    repo: "jwt-redis-auth-api",
-    tags: ["Node.js", "Express", "JWT", "Redis", "REST API"],
-    description:
-      "A secure and production-ready REST API featuring JWT access/refresh token rotation, Redis-backed session management, and rate limiting.",
-    github: "https://github.com/saltyip/jwt-redis-auth-api",
-    demo: "https://saltyip.github.io",
-    highlights: [
-      "Security: Access & refresh token rotation mechanics with immediate blacklist revocation.",
-      "Session Control: Sub-millisecond session checking backed by Redis stores.",
-      "Rate Limiting: Distributed rate limit thresholds to prevent DDoS and API abuse."
-    ]
-  },
-  {
-    id: 2,
-    name: "Email Queue Service",
-    repo: "emailqueue",
-    tags: ["Node.js", "Express", "BullMQ", "Redis", "PostgreSQL", "Nodemailer"],
-    description:
-      "A background job queue that handles email delivery asynchronously using BullMQ and Redis. Jobs are queued instantly, processed by a worker with concurrency and automatic retry on failure, and logged to PostgreSQL.",
-    github: "https://github.com/saltyip/emailqueue",
-    demo: "https://saltyip.github.io",
-    highlights: [
-      "Distributed queues: Handles heavy payloads asynchronously with BullMQ and Redis.",
-      "Reliability: Automatic exponential back-off and retry logic for background workers.",
-      "Database Logging: Transactional audit logs stored securely in PostgreSQL."
-    ]
-  },
-  {
-    id: 3,
-    name: "URL Shortener",
-    repo: "urlshortnercongential",
-    tags: ["Node.js", "PostgreSQL", "Redis", "JWT"],
-    description:
-      "A production-style URL shortening service built with Node.js and PostgreSQL. Focuses on reliability, performance, and security rather than just the core shortening logic.",
-    github: "https://github.com/saltyip/urlshortnercongential",
-    demo: "https://saltyip.github.io",
-    highlights: [
-      "Efficiency: Custom base-62 encoding algorithms for high-speed hash lookups.",
-      "Database Optimization: Structured indexing in PostgreSQL to handle high-read redirect operations.",
-      "High Availability: Redis caching layer for instant shortcode resolutions."
-    ]
-  },
-  {
-    id: 4,
-    name: "Nudge CLI Tool",
-    repo: "nudge",
-    tags: ["Node.js", "Shell", "CLI", "Arch Linux"],
-    description:
-      "A minimalist CLI reminder and task management tool built in Node.js for CachyOS and Arch Linux. Features natural language time parsing, background process monitoring, and shell integration for instant command-completion notifications.",
-    github: "https://github.com/saltyip/nudge",
-    demo: "https://saltyip.github.io",
-    highlights: [
-      "CLI Daemon: Linux background watcher daemon built with zero external runtime dependencies.",
-      "Natural Language: High-speed, rule-based text parser translating temporal phrases to cron tasks.",
-      "Shell Hooks: Intercepts terminal return status codes to trigger custom desktop notifications."
-    ]
-  },
-  {
-    id: 5,
-    name: "Dotfiles & Linux Tooling",
-    repo: "saltydotfiles",
-    tags: ["Shell", "Lua", "Python", "Neovim"],
-    description:
-      "Personal dotfiles and configs — fastfetch, fish, helix, kitty, neovim/lazyvim, and vicinae. Configs and wallpapers for a clean osleepy setup.",
-    github: "https://github.com/saltyip/saltydotfiles",
-    demo: "https://saltyip.github.io",
-    highlights: [
-      "Modular Configurations: Organized Neovim setups using Lazy.nvim wrapper pipelines.",
-      "Automation: Shell scripting environments built with Fastfetch, Fish, and Helix configs.",
-      "UX Polish: High-speed desktop setup with tailored tiling windows and custom widgets."
-    ]
-  },
-];
+import { projects } from "../../data/projects";
 
 export default function FileManager() {
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const sortedProjects = [...projects].sort((a, b) => a.id - b.id);
+  const [selectedProject, setSelectedProject] = useState(sortedProjects[0]);
 
   return (
     <div className="flex h-full w-full bg-[#1e1e2e]/40 overflow-hidden font-sans antialiased">
@@ -103,7 +28,7 @@ export default function FileManager() {
         </div>
 
         <div className="space-y-1">
-          {projects.map((proj) => (
+          {sortedProjects.map((proj) => (
             <div
               key={proj.id}
               onClick={() => setSelectedProject(proj)}
@@ -181,21 +106,23 @@ export default function FileManager() {
               <Code size={14} />
               GitHub
             </a>
-            <a
-              href={selectedProject.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 bg-[#313244] text-[#cdd6f4] hover:text-[#cba6f7] text-xs font-bold rounded-lg transition-all active:scale-95"
-            >
-              <ExternalLink size={14} />
-              Live Demo
-            </a>
-            {selectedProject.repo && (
+            {selectedProject.hasLiveDemo && selectedProject.liveDemoUrl && (
               <a
-                href={`https://devlog-app-beta.vercel.app/project/${selectedProject.repo}`}
+                href={selectedProject.liveDemoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 bg-[#313244] text-[#cdd6f4] hover:text-[#cba6f7] text-xs font-bold rounded-lg transition-all active:scale-95"
+              >
+                <ExternalLink size={14} />
+                Live Demo
+              </a>
+            )}
+            {selectedProject.hasDevlog && selectedProject.devlogUrl && (
+              <a
+                href={selectedProject.devlogUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-[#313244] text-[#cba6f7] hover:text-[#cdd6f4] border border-[#cba6f7]/20 hover:border-[#cba6f7]/50 hover:bg-[#cba6f7]/10 text-xs font-bold rounded-lg transition-all duration-300 active:scale-95 shadow-[0_0_10px_rgba(203,166,247,0.05)] hover:shadow-[0_0_15px_rgba(203,166,247,0.25)]"
               >
                 <ScrollText size={14} />
                 Devlog

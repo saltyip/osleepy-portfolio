@@ -1,68 +1,7 @@
 import { useState } from 'react';
 import { Mail, CodeXml, ExternalLink, ChevronDown, ChevronUp, Download, ScrollText } from 'lucide-react';
 
-const projects = [
-  {
-    name: "JWT Redis Auth API",
-    repo: "jwt-redis-auth-api",
-    tags: ["Node.js", "Express", "JWT", "Redis", "REST API"],
-    description: "A secure and production-ready REST API featuring JWT access/refresh token rotation, Redis-backed session management, and rate limiting.",
-    github: "https://github.com/saltyip/jwt-redis-auth-api",
-    highlights: [
-      "Security: Access & refresh token rotation mechanics with immediate blacklist revocation.",
-      "Session Control: Sub-millisecond session checking backed by Redis stores.",
-      "Rate Limiting: Distributed rate limit thresholds to prevent DDoS and API abuse."
-    ]
-  },
-  {
-    name: "Email Queue Service",
-    repo: "emailqueue",
-    tags: ["Node.js", "Express", "BullMQ", "Redis", "PostgreSQL", "Nodemailer"],
-    description: "A background job queue that handles email delivery asynchronously using BullMQ and Redis. Jobs are queued instantly, processed by a worker with concurrency and automatic retry on failure, and logged to PostgreSQL.",
-    github: "https://github.com/saltyip/emailqueue",
-    highlights: [
-      "Distributed queues: Handles heavy payloads asynchronously with BullMQ and Redis.",
-      "Reliability: Automatic exponential back-off and retry logic for background workers.",
-      "Database Logging: Transactional audit logs stored securely in PostgreSQL."
-    ]
-  },
-  {
-    name: "URL Shortener",
-    repo: "urlshortnercongential",
-    tags: ["Node.js", "PostgreSQL", "Redis", "JWT"],
-    description: "A production-style URL shortening service built with Node.js and PostgreSQL. Focuses on reliability, performance, and security rather than just the core shortening logic.",
-    github: "https://github.com/saltyip/urlshortnercongential",
-    highlights: [
-      "Efficiency: Custom base-62 encoding algorithms for high-speed hash lookups.",
-      "Database Optimization: Structured indexing in PostgreSQL to handle high-read redirect operations.",
-      "High Availability: Redis caching layer for instant shortcode resolutions."
-    ]
-  },
-  {
-    name: "Nudge CLI Tool",
-    repo: "nudge",
-    tags: ["Node.js", "Shell", "CLI", "Arch Linux"],
-    description: "A minimalist CLI reminder and task management tool built in Node.js for CachyOS and Arch Linux. Features natural language time parsing, background process monitoring, and shell integration for instant command-completion notifications.",
-    github: "https://github.com/saltyip/nudge",
-    highlights: [
-      "CLI Daemon: Linux background watcher daemon built with zero external runtime dependencies.",
-      "Natural Language: High-speed, rule-based text parser translating temporal phrases to cron tasks.",
-      "Shell Hooks: Intercepts terminal return status codes to trigger custom desktop notifications."
-    ]
-  },
-  {
-    name: "Dotfiles & Linux Tooling",
-    repo: "saltydotfiles",
-    tags: ["Shell", "Lua", "Python", "Neovim"],
-    description: "Personal dotfiles and configs — fastfetch, fish, helix, kitty, neovim/lazyvim, and vicinae. Configs and wallpapers for a clean osleepy setup.",
-    github: "https://github.com/saltyip/saltydotfiles",
-    highlights: [
-      "Modular Configurations: Organized Neovim setups using Lazy.nvim wrapper pipelines.",
-      "Automation: Shell scripting environments built with Fastfetch, Fish, and Helix configs.",
-      "UX Polish: High-speed desktop setup with tailored tiling windows and custom widgets."
-    ]
-  }
-];
+import { projects } from "../data/projects";
 
 export default function MobileView() {
   const [expandedProject, setExpandedProject] = useState(0);
@@ -101,7 +40,7 @@ export default function MobileView() {
         <h2 className="text-base font-bold uppercase tracking-wider text-subtext1 px-1">Projects Showcase</h2>
 
         <div className="flex flex-col gap-2.5">
-          {projects.map((proj, idx) => {
+          {[...projects].sort((a, b) => a.id - b.id).map((proj, idx) => {
             const isExpanded = expandedProject === idx;
             return (
               <div
@@ -155,15 +94,26 @@ export default function MobileView() {
                         <CodeXml size={14} />
                         <span>GitHub</span>
                       </a>
-                      {proj.repo && (
+                      {proj.hasDevlog && proj.devlogUrl && (
                         <a
-                          href={`https://devlog-app-beta.vercel.app/project/${proj.repo}`}
+                          href={proj.devlogUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 flex items-center justify-center gap-2 bg-[#313244] text-[#cba6f7] hover:text-[#cdd6f4] border border-[#cba6f7]/20 hover:border-[#cba6f7]/50 hover:bg-[#cba6f7]/10 font-bold text-xs py-2 px-4 rounded-lg transition-all duration-300 cursor-pointer text-center shadow-[0_0_10px_rgba(203,166,247,0.05)] hover:shadow-[0_0_15px_rgba(203,166,247,0.25)]"
+                        >
+                          <ScrollText size={14} />
+                          <span>Devlog</span>
+                        </a>
+                      )}
+                      {proj.hasLiveDemo && proj.liveDemoUrl && (
+                        <a
+                          href={proj.liveDemoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex-1 flex items-center justify-center gap-2 bg-[#313244] hover:bg-[#45475a] text-[#cdd6f4] hover:text-[#cba6f7] font-bold text-xs py-2 px-4 rounded-lg transition-colors cursor-pointer text-center"
                         >
-                          <ScrollText size={14} />
-                          <span>Devlog</span>
+                          <ExternalLink size={14} />
+                          <span>Live Demo</span>
                         </a>
                       )}
                     </div>
