@@ -8,7 +8,7 @@ export const projects = [
     github: "https://github.com/saltyip/jwt-redis-auth-api",
     hasLiveDemo: false,
     liveDemoUrl: "",
-    hasDevlog: true,
+    hasDevlog: false,
     devlogUrl: "https://devlog-app-beta.vercel.app/project/jwt-redis-auth-api",
     highlights: [
       "Token Rotation: 15-min access / 7-day refresh lifecycle. Old tokens are SET-blacklisted in Redis with remaining-TTL expiry to bound memory growth.",
@@ -25,7 +25,7 @@ export const projects = [
     github: "https://github.com/saltyip/emailqueue",
     hasLiveDemo: false,
     liveDemoUrl: "",
-    hasDevlog: true,
+    hasDevlog: false,
     devlogUrl: "https://devlog-app-beta.vercel.app/project/emailqueue",
     highlights: [
       "Resiliency: BullMQ worker implements exponential backoff with jitter to avoid thundering herd problems during SMTP outages.",
@@ -35,19 +35,19 @@ export const projects = [
   },
   {
     id: 5,
-    name: "URL Shortener",
-    repo: "urlshortnercongential",
-    tags: ["Node.js", "PostgreSQL", "Redis", "JWT"],
-    description: "High-read URL redirector designed to handle heavy traffic loads by aggressively caching resolutions and minimizing database round-trips.",
-    github: "https://github.com/saltyip/urlshortnercongential",
+    name: "wallswp",
+    repo: "wallpaper-swipe",
+    tags: ["Go", "REST API"],
+    description: "A fast, resilient wallpaper swiper application that serves randomized images through a Go backend and a minimal frontend.",
+    github: "https://github.com/saltyip/wallpaper-swipe",
     hasLiveDemo: false,
     liveDemoUrl: "",
-    hasDevlog: true,
-    devlogUrl: "https://devlog-app-beta.vercel.app/project/urlshortnercongential",
+    hasDevlog: false,
+    devlogUrl: "https://devlog-app-beta.vercel.app/project/wallpaper-swipe",
     highlights: [
-      "Cache-Aside Pattern: Redis handles 99% of read traffic for shortcode resolutions, gracefully degrading to PostgreSQL on cache misses.",
-      "Indexing Strategy: B-Tree index on the shortcode column in PostgreSQL to ensure O(log N) lookups when the cache is cold.",
-      "Collision Avoidance: Base-62 encoding using database auto-incrementing IDs to guarantee zero hash collisions, avoiding the birthday paradox."
+      "Automated Resilience: The frontend seamlessly triggers automatic retries to load the next wallpaper upon image load errors.",
+      "Minimal Interface: Clean, distraction-free UI allowing users to quickly swipe, like, dislike, or download images via REST endpoints.",
+      "Go Backend: Lightweight service that handles randomized image selection and user interactions."
     ]
   },
   {
@@ -76,7 +76,7 @@ export const projects = [
     github: "https://github.com/saltyip/dns-resolver",
     hasLiveDemo: false,
     liveDemoUrl: "",
-    hasDevlog: true,
+    hasDevlog: false,
     devlogUrl: "https://devlog-app-beta.vercel.app/project/dns-resolver",
     highlights: [
       "Binary Protocol Parsing: Manually constructed and parsed DNS query/response packets at the byte level using Node.js Buffers.",

@@ -12,19 +12,19 @@ export default function TextEditor() {
   "developer": {
     "name": "shaarav",
     "alias": "osleepy",
-    "role": "backend systems engineer",
-    "education": "2nd year CS student (B.Tech 2024–2028)",
-    "mission": "building highly concurrent, reliable systems that don't fall over under pressure"
+    "role": "backend engineer",
+    "status": "3rd year CS, Student 2024–2028"
+  },
+  "stack": {
+    "primary": ["go", "node.js", "postgresql", "redis", "docker"],
+    "env": ["cachyos", "neovim", "hyprland"]
   },
   "philosophy": {
-    "avoid": ["copy-paste tutorial projects", "shallow templates"],
-    "prefer": ["building backend primitives from scratch", "measuring benchmarks in milliseconds"],
-    "approach": "iterates until the system actually works, not just runs"
-  },
-  "technical_focus": {
-    "primary_stack": ["node.js", "postgresql", "redis", "bullmq"],
-    "environments": ["arch linux (cachyos)", "neovim / lazyvim", "git / github"]
-  }`}
+    "avoid": ["tutorial clones", "shipping before understanding"],
+    "default": "build it from scratch first, then use the library",
+    "target": "systems that hold up under real load, not just demo concepts"
+  }
+}`}
         </code>
       </div>
     </div>
