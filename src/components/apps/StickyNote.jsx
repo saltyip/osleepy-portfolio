@@ -30,7 +30,7 @@ export default function StickyNote() {
       <div className="border-b border-[#11111b]/15 pb-3">
         <div className="text-[11px] font-semibold uppercase tracking-[0.15em] opacity-50 mb-1">pinned</div>
         <div className="text-lg font-bold leading-tight">shaarav</div>
-        <div className="text-sm opacity-60 mt-0.5">2nd year CS · backend systems</div>
+        <div className="text-sm opacity-60 mt-0.5">3rd year CS · backend systems</div>
       </div>
 
       {/* Contact Links */}
